@@ -2,13 +2,13 @@ var trigger_key = 74; //ASCII key code for the letter 'J'
 var positionX = 0;
 var positionY = 0;
 
-if (window == top) {
+if (window === top) {
     window.addEventListener('keyup', doKeyPress, false);
     window.addEventListener('mouseup',createPopupWindow, false);
 }
 
 function doKeyPress(e) {
-	if (e.keyCode == trigger_key) {
+	if (e.keyCode === trigger_key) {
 	 	var sel = window.getSelection().toString();
 	 	var message = encodeURI(sel);
 	 	if (sel.length) {
@@ -24,7 +24,7 @@ function createPopupWindow(event) {
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender) {
-  $('#jhint_newDiv').remove();
+  $("#jhint_newDiv").remove();
 
  	var $newDiv = $('<div>');
  	var $contentDiv = $('<div>');
@@ -53,7 +53,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
       .append($('<a>')
         .attr("target", "_blank")
         .attr("href", "http://jisho.org/search/" + word)
-        .text('jisho.org')
+        .text('search from jisho.org')
       )
     );
 
@@ -74,4 +74,18 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
  	$boxclose.click(function(event) {
 		$newDiv.remove();
 	});
+});
+
+
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+  for (key in changes) {
+    var storageChange = changes[key];
+    console.log('Storage key "%s" in namespace "%s" changed. ' +
+      'Old value was "%s", new value is "%s".',
+      key,
+      namespace,
+      storageChange.oldValue,
+      storageChange.newValue);
+    console.log(storageChange.newValue);
+  }
 });
