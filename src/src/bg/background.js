@@ -12,14 +12,12 @@ chrome.extension.onRequest.addListener(function (request, sender) {
       const record = data[0];
       const word = record.japanese[0].word;
       const readings = record.japanese.map(j => j.reading);
-      console.log(record.senses);
-      console.log(record);
-      const senses = record.senses.map(sense => ({
+      const senses = record.sences.map(sense => ({
         meanings: sense.english_definitions,
         partOfSpeech: sense.parts_of_speech,
       }));
 
-      obj = {[word]: {word, readings, senses}}
+      const obj = {[word]: {word, readings, senses}};
 
       storeWord(obj);
       returnMessage(record);

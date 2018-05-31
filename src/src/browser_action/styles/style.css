@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 	background-color: white;
-	font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	font-family: "Hiragino Maru Gothic ProN",  Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
 	font-size: 16px;
 }
 
@@ -23,7 +23,7 @@ h1, h2 {
 	font-weight: 100;
 	margin: 0;
 	line-height: 1;
-	background-color: #8ABC83;
+	background-color: #2D5086;
 }
 
 h1 {
@@ -35,61 +35,58 @@ h2 {
 }
 
 ul {
-	padding-left: 1rem;
+    margin: 0;
+	padding: 0;
 }
 ul li {
 	list-style-type: none;
-	line-height: 3;
+	line-height: 1;
 	color: #777777;
 	font-size: .9rem;
 	vertical-align: middle;
-}
-
-ul li span {
-	border-radius: 3px;
-	text-align: center;
-	display: inline-block;
-	vertical-align: middle;
-}
-
-
-ul li span.number {
-	width: 25px;
-	height: 25px;
-	line-height: 25px;
-	margin-right: .5rem;
-	background-color: rgb(144, 157, 192);
-	color: white;
-}
-
-ul li span.button {
-	background-color: #8ABC83;
-	color: white;
-	font-size: .8rem;
-	width: 21px;
-	height: 21px;
-	line-height: 21px;
-	margin: 0 .3rem;
 }
 
 p {
 	font-weight: bold;
 	color:#666;
 }
-/*p a {
-	color: #8ABC83;
-	text-decoration: none;
-	cursor: pointer;
-}*/
-.action {
-	width: 100%;
-	margin:0 auto;
-	box-shadow: -2px 6px 80px -7px rgba(0,0,0,0.5);
-	border-radius: 10px 10px 10px 10px;
-	border: 0px solid #000000;
+
+.list {
+    padding: 20px 0;
+    border-bottom: solid 1px #E3E9F3;
 }
 
-.action.press_key {
-	width:60%;
-	margin: 0 5rem;
+.row {
+    padding-left: 20px;
+}
+
+.row-content {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.word-row {
+	height: 30px;
+}
+
+.word {
+	font-size: 20px;
+    font-weight: 800;
+    margin-right: 2px;
+}
+
+.reading {
+    font-size: 14px;
+}
+
+.description-row {
+	height: 16px;
+}
+
+.part-of-speech {
+	width: 60px;
+}
+
+.description{
+
 }
