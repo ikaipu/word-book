@@ -24,7 +24,9 @@
     "contextMenus",
     "tabs",
     "https://*/* ",
-    "http://*/* "    
+    "http://*/* ",
+    "clipboardWrite",
+    "clipboardRead"
   ],
   "content_scripts": [
     {

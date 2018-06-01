@@ -1,6 +1,6 @@
-var trigger_key = 74; //ASCII key code for the letter 'J'
-var positionX = 0;
-var positionY = 0;
+const trigger_key = 74; //ASCII key code for the letter 'J'
+let positionX = 0;
+let positionY = 0;
 
 if (window === top) {
     window.addEventListener('keyup', doKeyPress, false);
@@ -9,13 +9,7 @@ if (window === top) {
 
 function doKeyPress(e) {
 	if (e.keyCode === trigger_key) {
-	 	var sel = window.getSelection().toString();
-	 	var message = encodeURI(sel);
-	 	if (sel.length) {
-	 		chrome.extension.sendRequest({message: message});
-	 	}
-
-	}
+	  chrome.extension.sendMessage({type: 'FETCH_DICTIONARY_DATA'});}
 }
 
 function createPopupWindow(event) {
@@ -24,62 +18,69 @@ function createPopupWindow(event) {
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender) {
-  $("#jhint_newDiv").remove();
+  switch (request.type) {
+    case 'SHOW_DICTIONARY': {
+      $("#jhint_newDiv").remove();
 
- 	var $newDiv = $('<div>');
- 	var $contentDiv = $('<div>');
+      const $newDiv = $('<div>');
+      const $contentDiv = $('<div>');
 
- 	$contentDiv.attr("id", "jhint_contentDiv");
- 	$newDiv.attr("id", "jhint_newDiv");
+      $contentDiv.attr("id", "jhint_contentDiv");
+      $newDiv.attr("id", "jhint_newDiv");
 
-  var english_definitions = request.english_definitions ? request.english_definitions.join(', ') : '';
-  var reading = request.reading || '';
-  var word = request.word || '';
-  var parts_of_speech = request.parts_of_speech || [];
+      const english_definitions = request.english_definitions ? request.english_definitions.join(', ') : '';
+      const reading = request.reading || '';
+      const word = request.word || '';
+      const parts_of_speech = request.parts_of_speech || [];
 
-  var $character = $('<ruby>').text(word).append($('<rt>').text(reading));
-  var $parts_of_speech = parts_of_speech.length && $('<p>');
+      const $character = $('<ruby>').text(word).append($('<rt>').text(reading));
+      const $parts_of_speech = parts_of_speech.length && $('<p>');
 
-  parts_of_speech.map(function (item) {
-    $parts_of_speech.append($('<span class="jhint_partOfSpeech">').text(item));
-  });
+      parts_of_speech.map(function (item) {
+        $parts_of_speech.append($('<span class="jhint_partOfSpeech">').text(item));
+      });
 
-	$contentDiv
-    .append($('<a>').addClass("jhint_boxclose").attr("id", "jhint_boxclose"))
-    .append($('<p>').append($character))
-	  .append($('<p>').text(english_definitions))
-  	.append($parts_of_speech)
-  	.append($('<p>')
-      .append($('<a>')
-        .attr("target", "_blank")
-        .attr("href", "http://jisho.org/search/" + word)
-        .text('search from jisho.org')
-      )
-    );
+      $contentDiv
+        .append($('<a>').addClass("jhint_boxclose").attr("id", "jhint_boxclose"))
+        .append($('<p>').append($character))
+        .append($('<p>').text(english_definitions))
+        .append($parts_of_speech)
+        .append($('<p>')
+          .append($('<a>')
+            .attr("target", "_blank")
+            .attr("href", "http://jisho.org/search/" + word)
+            .text('search from jisho.org')
+          )
+        );
 
-  $newDiv.append($contentDiv);
+      $newDiv.append($contentDiv);
 
-	$('body').append($newDiv);
+      $('body').append($newDiv);
 
-	$boxclose = $("#jhint_boxclose");
+      $boxclose = $("#jhint_boxclose");
 
-	var width = $("#jhint_newDiv").innerWidth();
-	var height = $("#jhint_newDiv").innerHeight();
-	var currentY = positionY + 25;
-	var currentX = positionX - 25;
+      const width = $("#jhint_newDiv").innerWidth();
+      const height = $("#jhint_newDiv").innerHeight();
+      const currentY = positionY + 25;
+      const currentX = positionX - 25;
 
-	$newDiv.css("top", currentY + "px");
- 	$newDiv.css("left", currentX + "px");
+      $newDiv.css("top", currentY + "px");
+      $newDiv.css("left", currentX + "px");
 
- 	$boxclose.click(function(event) {
-		$newDiv.remove();
-	});
+      $boxclose.click(function(event) {
+        $newDiv.remove();
+      });
+    }
+    default: {
+      return ;
+    }
+  }
 });
 
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
   for (key in changes) {
-    var storageChange = changes[key];
+    const storageChange = changes[key];
     console.log('Storage key "%s" in namespace "%s" changed. ' +
       'Old value was "%s", new value is "%s".',
       key,
