@@ -16,7 +16,7 @@ chrome.extension.onMessage.addListener(function (request, sender) {
             const responseObject = JSON.parse(responseText);
             const data = responseObject.data;
             const record = data[0];
-            const word = record.japanese[0].word;
+            const word = record.japanese[0].word || record.japanese[0].reading;
             const readings = record.japanese.map(j => j.reading);
             const senses = record.senses.map(sense => ({
               meanings: sense.english_definitions,
@@ -84,4 +84,8 @@ function returnMessage(current) {
       parts_of_speech: parts_of_speech,
     });
   });
+}
+
+window.onload = function() {
+  chrome.storage.sync.clear();
 }

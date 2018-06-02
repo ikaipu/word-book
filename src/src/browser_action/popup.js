@@ -38,10 +38,15 @@ function getDictionaryDom (dictionary = {}) {
 
     const $senses = record.senses.map(s => {
       const sense = {...initialSense, ...s}
+      const $partOfSpeechRow = $row.clone().addClass('part-of-speech-row');
+      const $partOfSpeech = $rowContent.clone().addClass('part-of-speech').append(`${sense.partOfSpeech.join('/')}`);
+      $partOfSpeechRow.append($partOfSpeech);
+
       const $descriptionRow = $row.clone().addClass('description-row');
-      const $partOfSpeech = $rowContent.clone().addClass('part-of-speech').append(`${sense.partOfSpeech.join()}:`);
       const $description = $rowContent.clone().addClass('description').append(sense.meanings.join(', '));
-      return $descriptionRow.append($partOfSpeech).append($description);
+      $descriptionRow.append($description);
+
+      return $('<div>').append($partOfSpeechRow).append($descriptionRow);
     });
 
     return $element.append($wordRow).append($senses);
@@ -57,5 +62,4 @@ window.onload = function() {
     console.log(items.dictionary);
     renderDictionary(items.dictionary);
   });
-  console.log('storage cleared')
 }
